@@ -1,0 +1,27 @@
+---
+const res = await fetch("http:/astro-headless.local/wp-json/wp/v2/posts?_embed");
+const posts = await res.json();
+---
+<section class="js-cards-container overflow-hidden h-full -mt-[4.5rem] flex flex-col py-6 overflow-hidden">
+        { posts.map((post) => (
+                <div class="js-card relative flex flex-col w-full h-dvh">
+                    <img class="absolute h-full w-full object-cover" src={post._embedded['wp:featuredmedia']['0'].media_details.sizes.full.source_url} />
+                    <div class="flex flex-col justify-between h-full z-20 p-8 text-center sm:p-9 md:p-7 xl:p-9">
+                        <h2 class="text-black text-3xl bg-white font-semibold py-3 px-6 rounded-lg w-fit mx-auto" set:html={post.title.rendered} />
+                        <div set:html={post.content.rendered} class="text-base leading-relaxed text-body-color text-white mb-4"></div>
+                        <div class="flex justify-center gap-8">
+                            <a href={`/post/${post.slug}/`} class="inline-block w-fit py-1.5 text-sm bg-white font-medium transition border rounded-lg text-body-color hover:border-primary ‡hover:bg-primary border-gray-3 px-7 hover:text-green-800 dark:border-dark-3 dark:text-dark-6">
+                                Configuration personnalisée
+                            </a>
+                            <a href={`/post/${post.slug}/`} class="inline-block w-fit py-1.5 text-sm bg-gray-600 text-white font-medium transition rounded-lg px-7 ">
+                                Essais
+                            </a>
+                        </div>
+                    </div>
+                </div>
+        ) ) }
+</section>
+
+<script type="module">
+
+</script>
