@@ -2,18 +2,16 @@
 import myBackground from "../assets/img/tesla-logo.png";
 import { Image } from 'astro:assets';
 
-const res = await fetch("http://astro-headless.local/wp-json/wp/v2/navigation/8");
+const res = await fetch("http://astro-headless.local/wp-json/wp/v2/footer");
 const menuAPI = await res.json();
 ---
 
-<footer class="flex justify-center gap-6 items-center text-white font-semibold text-xs h-20">
+<footer class="flex flex-wrap justify-center gap-6 items-center text-white font-semibold text-xs h-20">
     <Image class="mr-6" width="130" height="80" src={myBackground} alt="Astro Logo" />
     <p>Simon © 2024</p>
-    <p>Mentions légales</p>
-    <p>Contact</p>
-    <p>Actualités</p>
-    <p>Recevoir nos actualités</p>
-    <p>Localisations</p>
+    {menuAPI && menuAPI.map(item => (
+            <p>{item.name}</p>
+    ))}
 </footer>
 
 
