@@ -1,21 +1,23 @@
 ---
-
-const res = await fetch("http://astro-headless.local/wp-json/wp/v2/posts?acf_format=standard&_fields=author,id,title,link,acf");
+import Footer from "./Footer.astro";
+const res = await fetch("http://astro-headless.local/wp-json/wp/v2/posts?acf_format=standard&_fields=author,id,title,link,slug,acf");
 const posts = await res.json();
 
 ---
 <section class="js-cards-container overflow-hidden h-full -mt-[4.5rem] flex flex-col py-6 overflow-hidden">
-        { posts.map((post) => (
+        { posts.map((post, index) => (
         <a href={`/post/${post.slug}/`} class="js-card relative flex flex-col w-full h-dvh">
-            <!-- <img class="absolute h-full w-full object-cover" src={post._embedded['wp:featuredmedia']['0'].media_details.sizes.full.source_url} /> -->
-            <video class="absolute h-full w-full object-cover" autoplay muted loop>
-                <source src={post.acf.video.url} type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+            {post.acf.video.url
+                ? <video class="absolute h-full w-full object-cover" autoplay muted loop>
+                        <source src={post.acf.video.url} type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                : <div class="absolute h-full w-full bg-gray-400"></div>
+            }
             <div class="absolute h-full w-full bg-black opacity-30"></div>
                <div class="flex flex-col justify-between h-full z-20 px-8 py-20 text-center">
                    <div>
-                       <h2 class="js-text-card text-white text-5xl font-semibold rounded-lg w-fit mx-auto my-6" set:html={post.title.rendered} />
+                       {post.title.rendered && <h2 class="js-text-card text-white text-5xl font-semibold rounded-lg w-fit mx-auto my-6" set:html={post.title.rendered} /> }
                        <h3 class="text-white underline under underline-offset-4 text-sm font-medium rounded-lg w-fit mx-auto">À partir de 299€ par mois</h3>
                    </div>
                    <div class="grid grid-cols-2 gap-6 max-w-2xl mx-auto text-sm">
@@ -27,6 +29,9 @@ const posts = await res.json();
                       </button>
                    </div>
                </div>
+            {index === posts.length - 1 && <div class="-mt-6 z-10 w-full">
+                <Footer />
+            </div>}
         </a>
         ) ) }
 </section>
