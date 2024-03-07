@@ -1,15 +1,19 @@
 ---
-
 const res = await fetch("http://astro-headless.local/wp-json/wp/v2/navigation/8");
 const menuAPI = await res.json();
-
+import { Image } from 'astro:assets';
+import myBackground from "../assets/img/tesla-logo.png"
 ---
 
-<header class="relative z-10 bg-none text-black flex justify-between items-center h-24 -mt-28 mb-16 p-4">
-    <a href="/" class='text-2xl'>{ menuAPI.title.rendered }</a>
+<header class="relative z-10 bg-none text-white flex justify-between items-center h-24 -mt-28 mb-16 p-4 px-6">
+    <Image width="150" height="80" src={myBackground} alt="Astro Logo" />
     <nav>
-        <ul class="flex gap-6" set:html={menuAPI.content.rendered}> </ul>
+        <ul class="flex gap-6 font-semibold" set:html={menuAPI.content.rendered}> </ul>
     </nav>
+    <ul class="flex items-center gap-2">
+        <li><svg class="size-6 border-2 border-white rounded-full" viewBox="0 0 24 24" stroke-width="2" width="22" height="22" color="#FFFFFF"><defs><style>.cls-6374f8d9b67f094e4896c670-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle><path class="cls-6374f8d9b67f094e4896c670-1" d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05"></path></svg></li>
+        <li class="size-6 border-2 border-white font-bold text-sm text-center text-white rounded-full">?</li>
+    </ul>
 </header>
 
 <script>

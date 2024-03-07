@@ -1,5 +1,6 @@
 ---
 import Header from "../components/Header.astro";
+import '@fontsource/montserrat';
 
 interface Props {
 	title: string;
@@ -18,7 +19,7 @@ const { title } = Astro.props;
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 	</head>
-	<body>
+	<body style="font-family: 'Montserrat'">
 		<Header/>
 		<slot />
 	</body>
